@@ -21,8 +21,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="306" column="60" lean-forward="false" selection-start-line="306" selection-start-column="60" selection-end-line="306" selection-end-column="60" />
+            <state relative-caret-position="15">
+              <caret line="422" column="59" lean-forward="false" selection-start-line="422" selection-start-column="59" selection-end-line="422" selection-end-column="59" />
               <folding>
                 <element signature="n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#li#0;n#ul#1;n#div#0;n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
@@ -428,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547669373175</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="dates">
+      <created>1547669459316</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1547669459316</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -508,7 +515,8 @@
     <MESSAGE value="Address updates" />
     <MESSAGE value="resume updates" />
     <MESSAGE value="address updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="address updates" />
+    <MESSAGE value="dates" />
+    <option name="LAST_COMMIT_MESSAGE" value="dates" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -638,8 +646,8 @@
     <entry file="file://$PROJECT_DIR$/acuna.py" />
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="306" column="60" lean-forward="false" selection-start-line="306" selection-start-column="60" selection-end-line="306" selection-end-column="60" />
+        <state relative-caret-position="15">
+          <caret line="422" column="59" lean-forward="false" selection-start-line="422" selection-start-column="59" selection-end-line="422" selection-end-column="59" />
           <folding>
             <element signature="n#div#0;n#nav#0;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#li#0;n#ul#1;n#div#0;n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
