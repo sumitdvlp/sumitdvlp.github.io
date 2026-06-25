@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevDepth — Technical Blog</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="archive.html">Archive</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="hero-eyebrow"><span class="dot"></span> Engineering perspectives</p>
+      <h1 class="hero-title">Deep dives into<br /><em>systems that scale.</em></h1>
+      <p class="hero-sub">Architecture, performance, and the craft of building software that lasts.</p>
+    </div>
+  </section>
+
+  <!-- FEATURED POST -->
+  <section class="section container">
+    <p class="section-label">Featured</p>
+    <article class="post-card post-card--featured">
+      <div class="post-card__meta">
+        <span class="tag">Systems</span>
+        <span class="post-date">June 20, 2026</span>
+      </div>
+      <h2 class="post-card__title">
+        <a href="posts/getting-started.html">Understanding Event-Driven Architecture at Scale</a>
+      </h2>
+      <p class="post-card__excerpt">
+        When your monolith starts groaning under millions of events per second, the path forward isn't always a microservices rewrite. Here's what we learned running Kafka at 2M events/sec.
+      </p>
+      <a href="posts/getting-started.html" class="btn-read">Read article →</a>
+    </article>
+  </section>
+
+  <!-- POST GRID -->
+  <section class="section container">
+    <p class="section-label">Latest posts</p>
+    <div class="post-grid" id="post-grid">
+
+      <article class="post-card">
+        <div class="post-card__meta">
+          <span class="tag">Performance</span>
+          <span class="post-date">June 15, 2026</span>
+        </div>
+        <h3 class="post-card__title"><a href="posts/getting-started.html">Profiling Node.js Apps with Clinic.js</a></h3>
+        <p class="post-card__excerpt">A walk-through of diagnosing a 400ms p99 latency spike using flame graphs and async tracking.</p>
+        <a href="posts/getting-started.html" class="post-link">Read →</a>
+      </article>
+
+      <article class="post-card">
+        <div class="post-card__meta">
+          <span class="tag">Databases</span>
+          <span class="post-date">June 8, 2026</span>
+        </div>
+        <h3 class="post-card__title"><a href="posts/getting-started.html">Postgres JSONB vs Normalized Tables</a></h3>
+        <p class="post-card__excerpt">When semi-structured data meets a relational DB — benchmarks, trade-offs, and when to choose each.</p>
+        <a href="posts/getting-started.html" class="post-link">Read →</a>
+      </article>
+
+      <article class="post-card">
+        <div class="post-card__meta">
+          <span class="tag">DevOps</span>
+          <span class="post-date">May 30, 2026</span>
+        </div>
+        <h3 class="post-card__title"><a href="posts/getting-started.html">Zero-Downtime Deployments with Feature Flags</a></h3>
+        <p class="post-card__excerpt">How we ship to production 20x a day without waking anyone up — using LaunchDarkly and blue-green deploys.</p>
+        <a href="posts/getting-started.html" class="post-link">Read →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="nav-logo">Dev<span>Depth</span></span>
+      <p>Built with plain HTML &amp; CSS · Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — DevDepth</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    .about-body { max-width: 600px; padding: 3rem var(--gap); }
+    .about-body p { color: var(--text-muted); margin-bottom: 1.25rem; }
+    .about-body h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 2rem 0 .5rem; }
+    .stack-list { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin-bottom: 1.25rem; }
+    .stack-list li { font-family: var(--font-mono); font-size: .75rem; background: var(--tag-bg); border: 1px solid var(--border); padding: .25rem .65rem; border-radius: 3px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="archive.html">Archive</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="page-header container">
+    <p class="section-label">The author</p>
+    <h1 class="page-title">About</h1>
+  </div>
+
+  <div class="about-body container">
+    <p>
+      Hi — I'm a software engineer who writes about the things I build, break, and learn from.
+      This blog is where I document deep dives that don't fit in a Slack thread.
+    </p>
+    <p>
+      I focus on backend systems, databases, and the gap between "it works in staging" and
+      "it works at 2AM under load." Opinions are my own.
+    </p>
+
+    <h2>Stack I write about</h2>
+    <ul class="stack-list">
+      <li>Node.js</li><li>Go</li><li>Postgres</li><li>Kafka</li>
+      <li>Redis</li><li>Docker</li><li>Kubernetes</li><li>Linux</li>
+    </ul>
+
+    <h2>Get in touch</h2>
+    <p>
+      Find me on <a href="https://github.com" style="color:var(--accent)">GitHub</a> or reach out
+      by email at <a href="mailto:you@example.com" style="color:var(--accent)">you@example.com</a>.
+    </p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="nav-logo">Dev<span>Depth</span></span>
+      <p>Built with plain HTML &amp; CSS · Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

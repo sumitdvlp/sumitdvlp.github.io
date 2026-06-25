@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started — DevDepth</title>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../archive.html">Archive</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ARTICLE HEADER -->
+  <div class="article-header container">
+    <span class="tag">Systems</span>
+    <h1 class="article-title">Understanding Event-Driven Architecture at Scale</h1>
+    <div class="article-meta">
+      <span>June 20, 2026</span>
+      <span>·</span>
+      <span>8 min read</span>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <main class="article-body">
+
+    <p>
+      When your monolith starts groaning under millions of events per second, the path forward
+      isn't always a microservices rewrite. Sometimes the architecture you need is already buried
+      inside the one you have — you just need to surface it.
+    </p>
+
+    <!-- ── IMAGE EXAMPLE ── -->
+    <div class="media-block">
+      <img
+        src="../assets/images/architecture-diagram.png"
+        alt="Event-driven architecture diagram showing producers, Kafka topics, and consumers"
+      />
+      <p class="media-caption">Fig 1. — High-level architecture: producers publish to Kafka topics, consumers process independently.</p>
+    </div>
+
+    <h2>Why events instead of direct calls?</h2>
+    <p>
+      Direct synchronous calls couple services tightly — the caller waits, latency compounds,
+      and a single slow dependency can cascade. Events invert this: producers don't care who's
+      listening, consumers process at their own pace, and the system degrades gracefully.
+    </p>
+
+    <h3>The three properties that matter</h3>
+    <ul>
+      <li><strong>Durability</strong> — events survive consumer restarts</li>
+      <li><strong>Ordering</strong> — per-partition ordering is preserved in Kafka</li>
+      <li><strong>Replayability</strong> — replay from offset to rebuild state or fix bugs</li>
+    </ul>
+
+    <!-- ── VIDEO EXAMPLE (self-hosted) ── -->
+    <div class="media-block">
+      <video controls preload="metadata">
+        <source src="../assets/videos/kafka-demo.mp4" type="video/mp4" />
+        Your browser doesn't support HTML5 video.
+      </video>
+      <p class="media-caption">Demo: watching partition rebalancing live as consumers are added.</p>
+    </div>
+
+    <h2>Setting up a Kafka producer in Node.js</h2>
+    <p>
+      Using <code>kafkajs</code>, wiring up a producer is straightforward. The key decisions
+      are your partitioner strategy and whether you need idempotent delivery.
+    </p>
+
+    <pre><code>import { Kafka } from 'kafkajs';
+
+const kafka = new Kafka({
+  clientId: 'my-service',
+  brokers: ['broker1:9092', 'broker2:9092'],
+});
+
+const producer = kafka.producer({
+  idempotent: true, // exactly-once semantics
+});
+
+await producer.connect();
+
+await producer.send({
+  topic: 'user-events',
+  messages: [
+    {
+      key: userId,
+      value: JSON.stringify({ type: 'signup', userId, timestamp: Date.now() }),
+    },
+  ],
+});
+</code></pre>
+
+    <!-- ── YOUTUBE EMBED EXAMPLE ── -->
+    <div class="video-embed">
+      <iframe
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="Kafka deep-dive talk"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <p class="media-caption" style="font-family:var(--font-mono);font-size:.75rem;color:var(--text-faint);margin-top:-.5rem;margin-bottom:1.5rem;">
+      ↑ Replace the YouTube URL above with your own video link.
+    </p>
+
+    <h2>Results after migration</h2>
+    <p>
+      After moving our order-processing pipeline to an event-driven model, p99 latency dropped
+      from 420ms to 38ms. Throughput increased 12×, and we gained the ability to replay events
+      for backfills — something impossible with our old RPC approach.
+    </p>
+
+    <!-- ── SECOND IMAGE EXAMPLE ── -->
+    <div class="media-block">
+      <img
+        src="../assets/images/latency-chart.png"
+        alt="Before/after latency chart showing improvement"
+      />
+      <p class="media-caption">Fig 2. — p99 latency before (orange) and after (green) the migration. Week 4 is cutover.</p>
+    </div>
+
+    <h2>What to watch out for</h2>
+    <p>
+      Events aren't free. You trade request/response simplicity for eventual consistency,
+      debugging complexity, and the operational burden of a message broker. Schema evolution
+      is trickier than changing a function signature. Use a schema registry from day one.
+    </p>
+
+    <pre><code># Register a schema with Confluent Schema Registry
+curl -X POST http://schema-registry:8081/subjects/user-events-value/versions \
+  -H "Content-Type: application/vnd.schemaregistry.v1+json" \
+  -d '{
+    "schema": "{\"type\":\"record\",\"name\":\"UserEvent\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"type\",\"type\":\"string\"}]}"
+  }'
+</code></pre>
+
+    <p>
+      That's the core of it. Start small — one event type, one consumer — and expand
+      from there. The patterns scale, but so does the complexity, so earn each step.
+    </p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <p>Built with plain HTML &amp; CSS · Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
