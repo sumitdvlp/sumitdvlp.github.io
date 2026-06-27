@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building an ACID LSM-Tree Storage Engine in Go, From Scratch — DevDepth</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png" />
+  <meta property="og:title" content="Building an ACID LSM-Tree Storage Engine in Go, From Scratch — DevDepth" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://sumitdvlp.github.io/posts/lsm-tree-engine.html" />
+  <meta property="og:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../archive.html">Archive</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="article-header container">
+    <span class="tag">Databases</span>
+    <h1 class="article-title">Building an ACID LSM-Tree Storage Engine in Go, From Scratch</h1>
+    <div class="article-meta">
+      <span>May 24, 2026</span>
+      <span>·</span>
+      <span>12 min read</span>
+    </div>
+  </div>
+
+  <main class="article-body">
+
+    <p>I'm writing a key-value storage engine in Go. No libraries for the interesting parts — the skiplist, the SSTable format, the bloom filter, the compaction scheduler, and the MVCC layer are all built by hand. The goal is a small embeddable engine with <strong>real ACID transactions</strong> and <strong>one writer node with many read-only replicas</strong>.</p>
+
+    <p>This post is the design, written down before most of the code exists. If you've read the LevelDB source and always wanted to know <em>why</em> it's shaped that way, this is that walkthrough.</p>
+
+    <h2>Why LSM instead of a B-tree</h2>
+    <p>A B-tree updates data in place. Every write touches a random page on disk. That's fine on a spinning disk with a big cache, and terrible when your write rate is high.</p>
+    <p>An LSM-tree (<a href="https://www.cs.umb.edu/~poneil/lsmtree.pdf" target="_blank" rel="noopener">log-structured merge tree</a>, O'Neil et al., 1996) makes a different trade:</p>
+    <ul>
+      <li>Writes go to an <strong>append-only log</strong> and an <strong>in-memory sorted table</strong>. Both are sequential. Fast.</li>
+      <li>When memory fills, the table is dumped to disk as an immutable file (an <strong>SSTable</strong>).</li>
+      <li>A background process (<strong>compaction</strong>) merges those files over time to keep read costs bounded.</li>
+    </ul>
+    <p>You pay for cheap writes with <strong>read amplification</strong> (a read may touch several files) and <strong>write amplification</strong> (compaction rewrites data repeatedly). Bloom filters and level layout are how you claw the read cost back.</p>
+
+    <div class="media-block">
+      <img src="../assets/images/lsm-flow.svg" alt="Diagram: a write fans out to the WAL and the memtable; the memtable flushes to an immutable memtable, which flushes to L0 SSTables, which compact down into L1 and beyond." />
+      <p class="media-caption">Fig 1. — Write path and compaction pipeline. Everything left of L0 is in memory; everything from L0 down is immutable files on disk.</p>
+    </div>
+
+    <p>Immutability is the quiet superpower here. An SSTable, once written, never changes. That fact shows up again later when we get to replicas.</p>
+
+    <p> To be continued...</p>
+
+    <!-- <h2>One idea does most of the work: the sequence number</h2>
+    <p>Every write gets a monotonically increasing 56-bit sequence number, and the key stored on disk is not the user's key:</p>
+
+    <pre><code>internalKey = userKey || seqNum (7 bytes, big-endian) || kind (1 byte)
+
+kind: 0x00 = tombstone (a delete)
+      0x01 = a value</code></pre>
+
+    <p>The comparator sorts <strong>userKey ascending, then seqNum descending</strong>. So for any key, the newest version sorts first. A merge iterator that simply takes the first entry it sees per user key is automatically correct — no special-casing.</p>
+
+    <p>Then the MVCC rule falls out in one line:</p>
+
+    <pre><code>visible(entry, snapshot)  ⟺  entry.seq &lt;= snapshot.seq</code></pre>
+
+    <p>A snapshot <em>is</em> a sequence number. Nothing else. No undo log, no version chains, no read locks, no timestamp oracle. Snapshot isolation is free — it's just a number you pinned when the transaction began.</p>
+
+    <p>A delete is a write too: it appends a tombstone, a marker that says "this key is gone as of seq N". The old value stays on disk until compaction can prove nobody needs it. Which brings us to the part that's easy to get wrong.</p>
+
+    <h2>The commit protocol, where the order is non-negotiable</h2>
+    <p>Exactly one goroutine commits. That single-writer choice removes a whole category of concurrency bugs — there is no write-write race to detect, because the writer observes every commit in a total order.</p>
+
+    <div class="media-block">
+      <img src="../assets/images/commit-protocol.svg" alt="Sequence diagram: a transaction commits to the writer, which validates the read set, assigns a sequence range, appends one batch record to the WAL, fsyncs (durability point), inserts into the memtable, then atomically publishes the new sequence number (visibility point) before acking the caller." />
+      <p class="media-caption">Fig 2. — The commit path, single writer goroutine. Two barriers, marked in green, are the whole ballgame.</p>
+    </div>
+
+    <p>There are two distinct barriers in there, and swapping them breaks the database:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Barrier</th>
+            <th>What it guarantees</th>
+            <th>What happens if you move it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>fsync</code> (step 4)</td>
+            <td>Durability</td>
+            <td>Publish before fsync — you ack a write, crash, and lose it</td>
+          </tr>
+          <tr>
+            <td>atomic publish (step 6)</td>
+            <td>Atomicity</td>
+            <td>Publish per entry instead of per batch — readers see half-applied transactions</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>That's the whole of A and D in ACID. Isolation is the snapshot rule from the previous section. Consistency is the read-set validation in step 1 — optimistic concurrency control, where <code>Commit()</code> returning <code>ErrConflict</code> is normal and the caller retries in a loop. Together with the single writer, that gets you <strong>serializable</strong>, at a cost of one map lookup per key read.</p>
+
+    <h2>The invariant I expect to lose sleep over</h2>
+    <p>Compaction's job is to <strong>throw away</strong> obsolete versions and tombstones. A live snapshot's job is to <strong>keep</strong> them. These are in direct opposition, and the referee is one watermark:</p>
+
+    <pre><code>oldestSnapshot = min(seq of all live snapshots, lastSeq)
+
+compaction may drop version v of key k
+    ⟺  a newer version of k exists in the compaction input
+    AND  v.seq &lt; oldestSnapshot</code></pre>
+
+    <p>A tombstone is stricter still: it can only be physically removed once it has reached the <strong>bottommost level</strong> <em>and</em> its seq is below <code>oldestSnapshot</code>. Drop it early and a value sitting in a lower level <strong>resurrects</strong> — a deleted key comes back from the dead.</p>
+
+    <p>Violations here are silent. Nothing crashes. A long-running scan just sees a key vanish mid-iteration, or a deleted row reappear next Tuesday. This is why the test harness runs from milestone 0: every milestone's tests replay randomized operations against a reference <code>map[string]string</code>, plus crash-injection tests that truncate and corrupt files at random offsets, reopen, and assert that no acked write was lost and no un-acked write is visible.</p>
+
+    <h2>Replicas: share the storage, don't ship the log</h2>
+    <p>For one writer and N read-only nodes, there are two obvious designs.</p>
+
+    <p><strong>Model B — log shipping</strong> (PostgreSQL streaming style): send the WAL to each replica, and each replica builds and compacts its own copy of everything. Every replica burns full compaction CPU recomputing byte-identical files, and stores its own 1× copy.</p>
+
+    <p><strong>Model A — shared storage</strong>: writer and readers point at the same SSTable files. Since SSTables are immutable, a reader can open one with zero coordination. Only the MANIFEST (the list of which files are in which level) and the WAL tail ever change.</p>
+
+    <div class="media-block">
+      <img src="../assets/images/replica-architecture.svg" alt="Architecture diagram: the writer node's memtable, WAL, SST writer, and compactor all point at shared storage; reader nodes tail the MANIFEST and WAL from that same shared storage and report back a snapshot lease to the compactor." />
+      <p class="media-caption">Fig 3. — Model A: writer and readers share one storage layer. Readers only ever tail the MANIFEST and WAL.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>A: shared storage</th>
+            <th>B: log shipping</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Reader lag</td>
+            <td>WAL tail only; SSTs visible immediately</td>
+            <td>Full replay</td>
+          </tr>
+          <tr>
+            <td>Storage cost</td>
+            <td>1×</td>
+            <td>N×</td>
+          </tr>
+          <tr>
+            <td>Reader CPU</td>
+            <td>~zero</td>
+            <td>Full compaction per replica</td>
+          </tr>
+          <tr>
+            <td>Hard part</td>
+            <td>File lifetime vs compaction</td>
+            <td>Replica divergence</td>
+          </tr>
+          <tr>
+            <td>Prior art</td>
+            <td><a href="https://github.com/facebook/rocksdb/wiki/Read-only-and-Secondary-instances" target="_blank" rel="noopener">RocksDB secondary</a>, Aurora, Neon</td>
+            <td>PostgreSQL, Cassandra</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>Model A wins, and it's what <a href="https://github.com/facebook/rocksdb/wiki/Read-only-and-Secondary-instances" target="_blank" rel="noopener">RocksDB secondary instances</a> already do. The one genuinely hard problem it introduces is <strong>file lifetime</strong>: the compactor wants to delete input SSTables that a reader still has open. So readers register the MANIFEST version they're holding, or take a time-bounded lease, and deletion is deferred until no live reader references the file. On POSIX an already-open file survives <code>unlink</code>, which gives some slack — but that's not true on object stores, so the explicit protocol is required anyway.</p>
+
+    <p>The same leases solve the snapshot problem across nodes: a remote reader holds a snapshot too, and a replica that stalls past its lease loses its snapshot rather than blocking the writer's compaction forever.</p>
+
+    <h2>The build order</h2>
+    <p>Three checkpoints worth naming, simplified from the full milestone dependency graph into the stages that actually matter:</p>
+
+    <div class="media-block">
+      <img src="../assets/images/milestone-roadmap.svg" alt="Roadmap diagram: checkpoint 1 groups the WAL, memtable, SSTable reader/writer, and flush milestones into a first durable database; checkpoint 2 adds write batches, bloom filters, the manifest, merge iterator, compaction, snapshots, benchmarks, and transactions for a first ACID database; checkpoint 3 adds read replicas; staleness tracking is future work." />
+      <p class="media-caption">Fig 4. — Milestone roadmap, grouped by checkpoint rather than raw dependency order.</p>
+    </div>
+
+    <ul>
+      <li><strong>First durable DB</strong> — milestones 0–4 plus 6. WAL, memtable, SSTable read/write, flush.</li>
+      <li><strong>First ACID DB</strong> — through 12. Snapshots, snapshot-aware compaction, OCC transactions.</li>
+      <li><strong>First 1-writer/N-reader DB</strong> — through 13.</li>
+    </ul>
+
+    <p>A few things are deliberately out of scope: automatic failover (that needs Raft and is its own project), multi-writer distributed transactions, a SQL layer, and sharding. Nothing in the design forecloses them.</p>
+
+    <h2>If you want to build one too</h2>
+    <ul>
+      <li><a href="https://www.cs.umb.edu/~poneil/lsmtree.pdf" target="_blank" rel="noopener">The original LSM paper</a> — O'Neil et al.</li>
+      <li><a href="https://github.com/google/leveldb/blob/main/doc/impl.md" target="_blank" rel="noopener">LevelDB implementation notes</a> and <a href="https://github.com/google/leveldb/blob/main/doc/table_format.md" target="_blank" rel="noopener">table format</a> — the clearest short description of an SSTable anywhere</li>
+      <li><a href="https://github.com/facebook/rocksdb/wiki" target="_blank" rel="noopener">RocksDB wiki</a> — compaction, transactions, secondary instances</li>
+      <li><a href="https://github.com/cockroachdb/pebble" target="_blank" rel="noopener">Pebble</a> — CockroachDB's LSM, in Go, production-grade</li>
+      <li><a href="https://github.com/hypermodeinc/badger" target="_blank" rel="noopener">Badger</a> — Go LSM with WiscKey key-value separation</li>
+      <li><a href="https://skyzh.github.io/mini-lsm/" target="_blank" rel="noopener">mini-lsm</a> — a Rust tutorial with excellent staging; the best guided version of this exercise</li>
+      <li><a href="http://daslab.seas.harvard.edu/monkey/" target="_blank" rel="noopener">Monkey / Dostoevsky</a> — the theory behind bloom-filter and compaction tuning</li>
+      <li><a href="https://drkp.net/papers/ssi-vldb12.pdf" target="_blank" rel="noopener">Serializable Snapshot Isolation</a> — Cahill et al., if you want SSI rather than single-writer OCC</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>I'll post per-milestone write-ups as the code lands. The WAL is first, and torn-tail recovery is where it gets interesting.</p> -->
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

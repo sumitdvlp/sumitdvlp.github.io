@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My journey of exploring DRBD at Azure — DevDepth</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png" />
+  <meta property="og:title" content="My journey of exploring DRBD at Azure — DevDepth" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://sumitdvlp.github.io/posts/drbd-exploration.html" />
+  <meta property="og:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../archive.html">Archive</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ARTICLE HEADER -->
+  <div class="article-header container">
+    <span class="tag">Systems</span>
+    <h1 class="article-title">My journey of exploring DRBD at Azure</h1>
+    <div class="article-meta">
+      <span>June 20, 2026</span>
+      <span>·</span>
+      <span>20 min read</span>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <main class="article-body">
+    <h1>Some background</h1>
+    <p>
+I was part of Azure's open source database migration team, where we shepherded customer databases to the cloud one careful byte at a time. Migrating databases is like moving a sleeping toddler and a vase at the same time — one wrong move and someone cries or break(trust/revenue). Data cannot be corrupted or lost during migration.
+        What I loved about the job was getting deep into the internals of Postgres and MySQL. Most of our solutions leaned on native DB technologies like WAL log replication, dump/restore, and native replication — basically the database equivalent of duct tape and a prayer.
+
+      Thanks for reading this far; I just wanted to set the scene before I hit the point.
+
+      One more pre-context note: I was exploring CRDT systems for some other project when I ran into DRBD, and suddenly things got even more delightfully nerdy.
+
+      For migration, we were using native replication and dump/restore, but I was curious about other replication technologies that could be used for database migration. DRBD is a block-level replication technology that can be used to replicate data between two servers. It is often used in high-availability clusters, but it can also be used for database migration. Here is my full post on <a href="all_about_drbd.html">DRBD Explained.</a>
+    </p>
+
+
+    <h2>The Plan</h2>
+    <p> Our migration used to stuggle a lot during transient error during dump/restore and many times complete failure during causing restart the whole process again, this was very painful/frustrating for customers. And most of our oncall tickets were related to these issues.
+      We wanted to explore DRBD as a potential replication technology for database migration, and see if it could help us avoid these issues. 
+      The two factors that we wanted to explore were:
+      <ul>
+        <li>How does DRBD perform under network partitioning?</li>
+        <li>How does DRBD perform under different hardware configurations?</li>
+      </ul>
+
+      2 metrics we wanted to measure were:
+      <ul>
+        <li>Latency of writes on the primary node during network partitioning.</li>
+        <li>How quickly the partitioned node can catch up with writes after the network partition.</li>
+      </ul>
+
+      And ofcourse if this setup brings any cost/performance tradeoffs for database migration.
+    </p>
+
+   <h2>The Setup</h2>
+    <p>I setup cluster of 3 Azure Linux VMs with one primary and two secondary nodes. Similar to this <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/tutorial-drbd">setup guide.</a> 
+        Primary node is responsible for writing data and secondary nodes are responsible for reading data.
+
+        <ul>
+          <li>3 Small VM with HDD</li>
+          <li>3 Small VM with SSD</li>
+          <li>3 Medium VM with SSD</li>
+          <li>3 Medium VM with SSD and high bandwidth network.</li>
+        </ul>
+
+        And ran gaming workload with small updates similar to <a href="https://github.com/baotiao/game-sysbench">https://github.com/baotiao/game-sysbench</a>
+        <ul>  
+        <li>1. Force network partitioning by restarting one/all of the secondary nodes.</li>
+        <li>2. Measure latency of writes on the primary node.</li>
+        </ul>
+ 
+    </p>
+
+    <h2>Results</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>CPU/VM size</th>
+          <th>Disk type</th>
+          <th>Workload type</th>
+          <th>Performance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3 Small</td>
+          <td>HDD </td>
+          <td>Small</td>
+          <td>Network partitioning increased latency</td>
+        </tr>
+        <tr>
+          <td>3 Small</td>
+          <td>SSD</td>
+          <td>Small</td>
+          <td>Network partitioning increased latency</td>
+        </tr>
+        <tr>
+          <td>3 Medium</td>
+          <td>SSD</td>
+          <td>Medium</td>
+          <td>Network partitioning increased latency</td>
+        </tr>
+        <tr>
+          <td>3 Large High Bandwidth</td>
+          <td>SSD</td>
+          <td>Medium</td>
+          <td>Nodes were able to catchup quickly.</td>
+        </tr>
+        <tr>
+          <td>3 Large VMs high-bandwidth network</td>
+          <td>SSD</td>
+          <td>High</td>
+          <td>Network partitioning increased latency</td>
+        </tr>
+        <tr>
+          <td>3 Medium VMs and high-bandwidth network</td>
+          <td>SSD</td>
+          <td>High</td>
+          <td>Network partitioning increased latency, and the partitioned node was unable to catch up with writes</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Conclusion</h2>
+    <p> We should discuss tradeoffs instead of making a conclusion. The tech works in theory but there is a cost (literally).
+      Large VMs with high-bandwidth network are expensive and not all customers can afford them. And they too only able to work on medium workloads. 
+      
+      This was a test setup and we did not explore all the possible configurations. Because earlier result were not very encouraging. Hence question of relaiblity was not answered as well.
+
+      I think DRDB is a good tech for file replication if you want build a system like dropbox or google drive. But for database a different layer of abstraction is needed.
+
+      I also noticed another use case is HA for database. After reading this <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/linux/tutorial-drbd">blog.</a>  But they didn't considered network partitioning and how it can affect TPS and latency.
+    </p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

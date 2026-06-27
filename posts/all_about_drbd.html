@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DRBD: My 2-Cent Analysis — DevDepth</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png" />
+  <meta property="og:title" content="DRBD: My 2-Cent Analysis — DevDepth" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://sumitdvlp.github.io/posts/all_about_drbd.html" />
+  <meta property="og:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../archive.html">Archive</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ARTICLE HEADER -->
+  <div class="article-header container">
+    <span class="tag">Systems</span>
+    <h1 class="article-title">DRBD: My 2-Cent Analysis</h1>
+    <div class="article-meta">
+      <span>June 20, 2026</span>
+      <span>·</span>
+      <span>20 min read</span>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <main class="article-body">
+
+        <p>DRBD (Distributed Replicated Block Device, by LINBIT) is a Linux kernel module that mirrors a raw block device across nodes over the network — essentially RAID-1 over TCP/RDMA. Every write to the primary node is shipped to the secondary(s) before (or after) being acknowledged. It's storage-layer, not application-aware: the filesystem, LVM volume, or VM image sitting on top has no idea replication is happening. Typically paired with <a href="https://oneuptime.com/blog/post/2026-03-02-active-passive-failover-pacemaker-ubuntu/view" > Pacemaker + Corosync </a> for failover, and <a href="https://github.com/LINBIT/linstor-server">LINSTOR</a> for orchestration.</p>
+
+        <h2>Why it's not widely adopted?</h2>
+        <p>DRBD is a niche technology, and while it has its use cases, it hasn't seen widespread adoption. Reasons include:</p>
+        <ul>
+          <li>Split-brain is a real operational hazard — needs STONITH/fencing and quorum done correctly; recovery is often manual (--discard-my-data).</li>
+          <li>Block-level = dumb replication — it faithfully mirrors corruption, bad writes, and rm -rf alike. No point-in-time recovery.</li>
+          <li>Stack complexity — DRBD + Corosync + Pacemaker + fencing + LVM is a lot of moving parts for a 2-node HA pair, and the failure modes are subtle.</li>
+          <li>Not scale-out — it's pairwise/small-cluster (up to 32 nodes in v9, but managed per-resource), not a self-healing distributed pool.</li>
+          <li>Sync replication punishes latency — cross-AZ/WAN write amplification; resync storms after a node returns.</li>
+          <li>Poor cloud/K8s fit historically — it assumes long-lived, hand-managed nodes; ephemeral, API-driven infra is the opposite. </li>
+          <li>Commercial gravity — prebuilt modules/support sit behind LINBIT subscriptions; smaller community and thinner third-party docs.</li>
+        </ul>
+        <h2> The bigger reason: Just my opinion</h2>
+        <p>Replication moved up the stack (atleast of DBs). Databases replicate themselves, distributed storage systems replicate at the cluster layer, and clouds replicate invisibly. Mirroring raw blocks is now the wrong abstraction for most workloads.</p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

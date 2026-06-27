@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noria: caching that invalidates itself — DevDepth</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png" />
+  <meta property="og:title" content="Noria: caching that invalidates itself — DevDepth" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://sumitdvlp.github.io/posts/noria-dataflow.html" />
+  <meta property="og:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../archive.html">Archive</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="article-header container">
+    <span class="tag">Databases</span>
+    <h1 class="article-title">Noria: caching that invalidates itself</h1>
+    <div class="article-meta">
+      <span>July 25, 2026</span>
+      <span>·</span>
+      <span>3 min read</span>
+    </div>
+  </div>
+
+  <main class="article-body">
+    <h1>Why I keep coming back to this repo</h1>
+    <p>
+      One of my favorite GitHub projects is <a href="https://github.com/mit-pdos/noria">mit-pdos/noria</a>, a research project out of MIT PDOS (Jon Gjengset's PhD work, later commercialized as ReadySet). It attacks a problem every backend engineer has quietly suffered through: cache invalidation. Not "how do I cache this query" — that part is easy — but "how do I know when to throw the cache away," which is the actual hard half of the famous two-hard-things joke.
+    </p>
+
+    <h2>The idea</h2>
+    <p>
+      Most systems bolt memcached or Redis in front of Postgres and then hand-write invalidation logic scattered across the codebase: update this row, remember to bust that key. It works until it doesn't. I remember a famous saying by 2 hardest problem in computer science: cache invalidation and naming things. Noria is a research project that tries to solve this problem by treating your SQL queries as a dataflow graph, where base tables are inputs and every cached query is a materialized view sitting downstream in the graph, kept fresh by streaming deltas through the operators whenever the base data changes.
+      Noria flips this around. Instead of caching query results as a side effect, it treats your SQL queries as a dataflow graph. Base tables are inputs, and every cached query is a materialized view sitting downstream in the graph, kept fresh by streaming deltas through the operators — joins, aggregations, filters — whenever the base data changes. There is no invalidation step because there's nothing to invalidate; the view is always derived, incrementally, from the write path itself.
+    </p>
+
+    <h2>What I actually find clever</h2>
+    <p>
+      The "partially-stateful" part is the neat trick. A naive dataflow system would materialize every intermediate operator, which gets expensive fast. Noria instead evicts state it doesn't need and lazily rematerializes it on a cache miss by replaying the necessary slice of upstream data — so it behaves like an LRU cache, except the "cache miss" path is a real, correct dataflow computation instead of a fallback query to the source of truth.
+      It's the same instinct behind incremental view maintenance in systems like Materialize or differential dataflow, but Noria's angle — plug in as a MySQL-compatible layer, keep your existing queries — makes the idea land as something you could plausibly retrofit onto a real app rather than a green-field rewrite.
+    </p>
+
+    <h2>Where it left me</h2>
+    <p>
+      The original repo is mostly dormant now (the commercial fork, ReadySet, is where active development moved), but the codebase and the accompanying paper are still one of the clearest treatments I've read of "what if the cache and the database were the same system." If you've ever hand-rolled invalidation logic and hated it, it's worth an afternoon.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
