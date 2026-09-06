@@ -1,0 +1,1476 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "attn.js",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "attn_js",
+      "community": 3,
+      "norm_label": "attn.js"
+    },
+    {
+      "label": "u()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_u",
+      "community": 5,
+      "norm_label": "u()"
+    },
+    {
+      "label": "g()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_g",
+      "community": 4,
+      "norm_label": "g()"
+    },
+    {
+      "label": "l()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_l",
+      "community": 1,
+      "norm_label": "l()"
+    },
+    {
+      "label": "ve()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ve",
+      "community": 1,
+      "norm_label": "ve()"
+    },
+    {
+      "label": "xe()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_xe",
+      "community": 7,
+      "norm_label": "xe()"
+    },
+    {
+      "label": "be()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_be",
+      "community": 1,
+      "norm_label": "be()"
+    },
+    {
+      "label": "he()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_he",
+      "community": 3,
+      "norm_label": "he()"
+    },
+    {
+      "label": "$()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn",
+      "community": 0,
+      "norm_label": "$()"
+    },
+    {
+      "label": "m()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_m",
+      "community": 6,
+      "norm_label": "m()"
+    },
+    {
+      "label": "Se()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_se",
+      "community": 0,
+      "norm_label": "se()"
+    },
+    {
+      "label": "ge()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ge",
+      "community": 3,
+      "norm_label": "ge()"
+    },
+    {
+      "label": "Te()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_te",
+      "community": 6,
+      "norm_label": "te()"
+    },
+    {
+      "label": "B()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_b",
+      "community": 0,
+      "norm_label": "b()"
+    },
+    {
+      "label": "Me()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_me",
+      "community": 0,
+      "norm_label": "me()"
+    },
+    {
+      "label": "oe()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_oe",
+      "community": 5,
+      "norm_label": "oe()"
+    },
+    {
+      "label": "ne()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ne",
+      "community": 2,
+      "norm_label": "ne()"
+    },
+    {
+      "label": "re()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_re",
+      "community": 0,
+      "norm_label": "re()"
+    },
+    {
+      "label": "I()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_i",
+      "community": 2,
+      "norm_label": "i()"
+    },
+    {
+      "label": "Ce()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ce",
+      "community": 2,
+      "norm_label": "ce()"
+    },
+    {
+      "label": "Y()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_y",
+      "community": 0,
+      "norm_label": "y()"
+    },
+    {
+      "label": "Ie()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ie",
+      "community": 4,
+      "norm_label": "ie()"
+    },
+    {
+      "label": "Ke()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ke",
+      "community": 4,
+      "norm_label": "ke()"
+    },
+    {
+      "label": "ct()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ct",
+      "community": 3,
+      "norm_label": "ct()"
+    },
+    {
+      "label": "Pe()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_pe",
+      "community": 2,
+      "norm_label": "pe()"
+    },
+    {
+      "label": "De()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_de",
+      "community": 2,
+      "norm_label": "de()"
+    },
+    {
+      "label": "Ue()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ue",
+      "community": 7,
+      "norm_label": "ue()"
+    },
+    {
+      "label": "dt()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_dt",
+      "community": 5,
+      "norm_label": "dt()"
+    },
+    {
+      "label": "le()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_le",
+      "community": 6,
+      "norm_label": "le()"
+    },
+    {
+      "label": "Ye()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ye",
+      "community": 4,
+      "norm_label": "ye()"
+    },
+    {
+      "label": "We()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_we",
+      "community": 1,
+      "norm_label": "we()"
+    },
+    {
+      "label": "Fe()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_fe",
+      "community": 0,
+      "norm_label": "fe()"
+    },
+    {
+      "label": "ht()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ht",
+      "community": 0,
+      "norm_label": "ht()"
+    },
+    {
+      "label": "Et()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_et",
+      "community": 0,
+      "norm_label": "et()"
+    },
+    {
+      "label": "qe()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_qe",
+      "community": 0,
+      "norm_label": "qe()"
+    },
+    {
+      "label": "St()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_st",
+      "community": 1,
+      "norm_label": "st()"
+    },
+    {
+      "label": "gt()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_gt",
+      "community": 4,
+      "norm_label": "gt()"
+    },
+    {
+      "label": "_t()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_t",
+      "community": 1,
+      "norm_label": "_t()"
+    },
+    {
+      "label": "ze()",
+      "file_type": "code",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "id": "assets_attn_ze",
+      "community": 3,
+      "norm_label": "ze()"
+    },
+    {
+      "label": "main.js",
+      "file_type": "code",
+      "source_file": "js/main.js",
+      "source_location": "L1",
+      "id": "js_main_js",
+      "community": 8,
+      "norm_label": "main.js"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_g",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_l",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ve",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_xe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_be",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_he",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_se",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_te",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_b",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_me",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_oe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ne",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_re",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_i",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_y",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ie",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ke",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_pe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_de",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ue",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_dt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_le",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ye",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_we",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_fe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ht",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_et",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_qe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_st",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_gt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_t",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "attn_js",
+      "target": "assets_attn_ze",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_te",
+      "target": "assets_attn_u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_oe",
+      "target": "assets_attn_u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_i",
+      "target": "assets_attn_u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ue",
+      "target": "assets_attn_u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_dt",
+      "target": "assets_attn_u",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ke",
+      "target": "assets_attn_g",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ne",
+      "target": "assets_attn_g",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_g",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_gt",
+      "target": "assets_attn_g",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_be",
+      "target": "assets_attn_l",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_st",
+      "target": "assets_attn_l",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_t",
+      "target": "assets_attn_l",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_t",
+      "target": "assets_attn_ve",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ce",
+      "target": "assets_attn_xe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ue",
+      "target": "assets_attn_xe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_t",
+      "target": "assets_attn_be",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ct",
+      "target": "assets_attn_he",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_de",
+      "target": "assets_attn_he",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ze",
+      "target": "assets_attn_he",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn",
+      "target": "assets_attn_qe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_fe",
+      "target": "assets_attn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_te",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_b",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ce",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ue",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_le",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_de",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ht",
+      "target": "assets_attn_m",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_se",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ct",
+      "target": "assets_attn_ge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_te",
+      "target": "assets_attn_le",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_b",
+      "target": "assets_attn_i",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_b",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_fe",
+      "target": "assets_attn_b",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ht",
+      "target": "assets_attn_b",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_ke",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_re",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_ce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_me",
+      "target": "assets_attn_y",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_et",
+      "target": "assets_attn_me",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_qe",
+      "target": "assets_attn_me",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_gt",
+      "target": "assets_attn_me",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_t",
+      "target": "assets_attn_me",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_oe",
+      "target": "assets_attn_le",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ne",
+      "target": "assets_attn_oe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ce",
+      "target": "assets_attn_oe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ne",
+      "target": "assets_attn_ct",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ne",
+      "target": "assets_attn_pe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ce",
+      "target": "assets_attn_ne",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_de",
+      "target": "assets_attn_ne",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ht",
+      "target": "assets_attn_re",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ce",
+      "target": "assets_attn_i",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_de",
+      "target": "assets_attn_i",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_de",
+      "target": "assets_attn_ce",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_fe",
+      "target": "assets_attn_y",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_gt",
+      "target": "assets_attn_ie",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ke",
+      "target": "assets_attn_st",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_de",
+      "target": "assets_attn_pe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ht",
+      "target": "assets_attn_de",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_qe",
+      "target": "assets_attn_de",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_gt",
+      "target": "assets_attn_de",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_gt",
+      "target": "assets_attn_ye",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_t",
+      "target": "assets_attn_we",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_t",
+      "target": "assets_attn_st",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "attn.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "assets_attn_ze",
+      "target": "assets_attn_t",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": []
+}

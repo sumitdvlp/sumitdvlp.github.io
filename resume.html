@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résumé — Sumit Kumar</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png" />
+  <meta property="og:title" content="Résumé — Sumit Kumar" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sumitdvlp.github.io/resume.html" />
+  <meta property="og:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    .resume { max-width: 820px; padding: 3rem var(--gap) 4rem; }
+
+    .resume-top {
+      display: flex; flex-wrap: wrap; align-items: flex-end;
+      justify-content: space-between; gap: 1rem;
+      padding-bottom: 1.5rem; margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .resume-name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -.02em;
+    }
+    .resume-role { color: var(--text-muted); font-size: 1rem; margin-top: .35rem; }
+    .resume-contact {
+      display: flex; flex-wrap: wrap; gap: .35rem 1rem;
+      font-family: var(--font-mono); font-size: .8rem;
+      color: var(--text-muted);
+    }
+    .resume-contact a { color: var(--text-muted); transition: color .2s; }
+    .resume-contact a:hover { color: var(--accent); }
+
+    .dl-btn {
+      display: inline-block;
+      font-family: var(--font-mono); font-size: .8rem; font-weight: 600;
+      color: var(--bg); background: var(--accent);
+      padding: .5rem 1.1rem; border-radius: 3px;
+      transition: opacity .2s;
+    }
+    .dl-btn:hover { opacity: .85; }
+
+    .resume-section { margin-bottom: 2.75rem; }
+    .resume-section > .section-label { margin-bottom: 1.75rem; }
+
+    .job { margin-bottom: 2rem; }
+    .job:last-child { margin-bottom: 0; }
+    .job-head {
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      justify-content: space-between; gap: .25rem 1rem;
+    }
+    .job-org { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
+    .job-dates { font-family: var(--font-mono); font-size: .75rem; color: var(--text-faint); white-space: nowrap; }
+    .job-sub {
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      justify-content: space-between; gap: .25rem 1rem;
+      color: var(--text-muted); font-size: .9rem; margin-top: .15rem;
+    }
+    .job-sub em { color: var(--accent); font-style: normal; }
+    .job-blurb { color: var(--text-muted); font-size: .95rem; margin: .6rem 0 .25rem; }
+
+    .role-block { margin-top: 1rem; }
+    .role-title {
+      font-family: var(--font-mono); font-size: .8rem; font-weight: 600;
+      color: var(--text); letter-spacing: .02em;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: .25rem 1rem;
+    }
+    .role-title span { color: var(--text-faint); font-weight: 400; }
+
+    .resume ul { list-style: none; padding: 0; margin: .6rem 0 0; }
+    .resume ul li {
+      position: relative; padding-left: 1.2rem;
+      color: var(--text-muted); font-size: .95rem; margin-bottom: .55rem;
+    }
+    .resume ul li::before {
+      content: '▹'; position: absolute; left: 0;
+      color: var(--accent); font-size: .8rem;
+    }
+    .resume ul li strong { color: var(--text); font-weight: 600; }
+
+    .skills-grid { display: grid; gap: .9rem; }
+    .skills-row { display: grid; grid-template-columns: 190px 1fr; gap: 1rem; align-items: baseline; }
+    .skills-row dt {
+      font-family: var(--font-mono); font-size: .72rem; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--text-faint);
+    }
+    .skills-row dd { color: var(--text-muted); font-size: .9rem; }
+
+    .edu-head {
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      justify-content: space-between; gap: .25rem 1rem;
+    }
+    .edu-school { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; }
+    .edu-meta { color: var(--text-muted); font-size: .9rem; margin-top: .15rem; }
+
+    @media (max-width: 560px) {
+      .skills-row { grid-template-columns: 1fr; gap: .2rem; }
+    }
+
+    /* ─── PRINT ─────────────────────────────────────────────── */
+    @media print {
+      .site-header, .site-footer, .dl-btn, .print-hint { display: none !important; }
+      body { background: #fff; color: #111; font-size: 11px; line-height: 1.4; }
+      .resume { max-width: none; padding: 0; }
+      .resume-name, .job-org, .edu-school, .job-sub em { color: #111; }
+      .section-label { color: #555; border-color: #ccc; }
+      .resume ul li, .job-blurb, .job-sub, .resume-role, .resume-contact,
+      .skills-row dd, .edu-meta { color: #333; }
+      .resume ul li::before, .role-title span, .job-dates,
+      .skills-row dt, .section-label { color: #666; }
+      .resume ul li strong, .resume ul li, .role-title { color: #111; }
+      .resume-top, .section-label { border-color: #ccc; }
+      .resume-section { margin-bottom: 1.4rem; page-break-inside: avoid; }
+      .job, .role-block { page-break-inside: avoid; }
+      a { color: #111 !important; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="archive.html">Archive</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="resume.html" class="active">Résumé</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="resume container">
+
+    <div class="resume-top">
+      <div>
+        <h1 class="resume-name">Sumit Kumar</h1>
+        <p class="resume-role">Software Engineer — Distributed Systems &amp; ML Platforms</p>
+        <div class="resume-contact" style="margin-top:.75rem">
+          <span>Seattle, WA</span>
+          <a href="tel:+14807407728">480-740-7728</a>
+          <a href="mailto:sumitdvlp@gmail.com">sumitdvlp@gmail.com</a>
+          <a href="https://www.linkedin.com/in/sumitdvlp/">linkedin.com/in/sumitdvlp</a>
+          <a href="https://github.com/sumitdvlp">github.com/sumitdvlp</a>
+        </div>
+      </div>
+      <a class="dl-btn" href="assets/Sumit_Kumar_Uber_Azure.pdf" download>Download PDF ↓</a>
+    </div>
+
+    <section class="resume-section">
+      <p class="section-label">Experience</p>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-org">Uber</span>
+          <span class="job-dates">Aug 2022 – Present</span>
+        </div>
+        <div class="job-sub">
+          <span>Software Engineer</span>
+          <span>Seattle, Washington</span>
+        </div>
+        <p class="job-blurb">
+          Optimally matching riders with drivers at airports on a low-latency platform powering
+          millions of real-time match decisions per second, improving marketplace health at
+          airports of global scale with ML-powered systems.
+        </p>
+        <p class="job-blurb"><em>Focus:</em> Distributed Systems · Time-series Forecasting · Event-Driven Architecture · Microservices · Experimentation</p>
+
+        <div class="role-block">
+          <p class="role-title">Airport Supply Team — Project / Eng Lead (M–XL projects) <span>Apr 2024 – Present</span></p>
+          <ul>
+            <li><strong>Rule Engine platform (L):</strong> built a centralized low-latency decisioning platform for every promotion on airport-originated trips — 10k RPS at ≤200 ms latency.</li>
+            <li><strong>ML forecasting suite (L):</strong> engineered Estimated-to-Request (in-queue &amp; off-queue), Earnings-per-Hour, and proactive driver notifications using time-series forecasting — <strong>+3%</strong> Complete/Request, <strong>+1.5%</strong> airport GB growth.</li>
+            <li><strong>Automatic exit/entry platform (M):</strong> designed a reliable driver entry/exit system in partnership with airport authorities, reducing partner friction, airport congestion, and operational cost.</li>
+            <li><strong>On-Demand driver feature (XL):</strong> designed, engineered, and launched globally — <strong>+2.5%</strong> Complete/Request, <strong>+0.2%</strong> Gross Bookings, <strong>−5%</strong> rider wait time across all major airports.</li>
+            <li>Led pods of 4+ backend engineers; coordinated with Product, Mobile, Design, City Ops, and Matching to ship real-time airport experiences and large-scale model deployment with real-time inference.</li>
+          </ul>
+        </div>
+
+        <div class="role-block">
+          <p class="role-title">Airport Matching Team <span>Aug 2022 – Apr 2024</span></p>
+          <ul>
+            <li>Introduced offer broadcasting for airport drivers with a new solver and an ML acceptance-prediction model — <strong>+8–10%</strong> airport queue throughput.</li>
+            <li>Extended offers to off-airport drivers during moderate low-supply hours — <strong>−10–15%</strong> rider wait times across major and minor airports.</li>
+            <li>Improved ETA calculations for riders and drivers to sharpen objective-function accuracy — <strong>−2%</strong> post-match cancellations.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-org">Microsoft — Azure Database Migration Platform (MySQL / Postgres)</span>
+          <span class="job-dates">Mar 2019 – Aug 2022</span>
+        </div>
+        <div class="job-sub">
+          <span>Software Engineer</span>
+          <span>Redmond, Washington</span>
+        </div>
+        <p class="job-blurb">
+          Azure's free service for migrating on-prem and AWS RDS databases to the Azure Data
+          Platform with zero downtime.
+        </p>
+        <ul>
+          <li>Built tools, services, and applications enabling automatic, zero-downtime migration scenarios.</li>
+          <li>Developed an online PostgreSQL migration solution using WAL logs, native replication, and dump/restore — migrated <strong>~5k</strong> medium databases per year to Azure Data platforms.</li>
+          <li>Founding engineer for the offline migration pipeline; delivered an offline MySQL migration service with <strong>3× faster</strong> median migration time. Designed the online solution with reactive programming and native DB features (binlog, replication).</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-head">
+          <span class="job-org">Open Source &amp; Side Projects</span>
+          <span class="job-dates">Oct 2021 – Present</span>
+        </div>
+        <div class="job-sub">
+          <span>Contributions &amp; experiments</span>
+          <span>Redmond, Washington</span>
+        </div>
+        <ul>
+          <li>Contributed to the <strong>MySqlConnector</strong> open-source driver — added support for multiple data types; proposed telemetry, connection-statistics, and writer-efficiency improvements.</li>
+          <li>Filed and drove issues around telemetry, connection stats, and writer efficiency.</li>
+          <li>Implemented a <strong>PyTorch-style autograd engine</strong> from scratch and validated its gradients against the reference library.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <p class="section-label">Technical Skills</p>
+      <dl class="skills-grid">
+        <div class="skills-row">
+          <dt>Languages &amp; Frameworks</dt>
+          <dd>Go, Java, Python, C#, PL/SQL, .NET, Bash, Git, Reactive FX, Django</dd>
+        </div>
+        <div class="skills-row">
+          <dt>Tools &amp; Tech</dt>
+          <dd>gRPC, Apache Thrift, Protobuf, REST, PyTorch, Grafana, Apache Spark, Replication</dd>
+        </div>
+        <div class="skills-row">
+          <dt>Machine Learning</dt>
+          <dd>Transformers, Time-series Forecasting, Regression, Feature Selection, Deep Neural Networks</dd>
+        </div>
+        <div class="skills-row">
+          <dt>Storage &amp; Data</dt>
+          <dd>Apache Kafka, PostgreSQL, Redis, MySQL, Azure Data, NoSQL databases, AWS S3</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="resume-section">
+      <p class="section-label">Education</p>
+      <div class="edu-head">
+        <span class="edu-school">Arizona State University</span>
+        <span class="job-dates">2018 – 2019</span>
+      </div>
+      <p class="edu-meta">Master of Science in Computer Science — Tempe, Arizona</p>
+    </section>
+
+    <p class="print-hint" style="font-family:var(--font-mono);font-size:.72rem;color:var(--text-faint)">
+      Tip: use your browser's Print → Save as PDF for a clean printable copy.
+    </p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="nav-logo">Dev<span>Depth</span></span>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
