@@ -53,16 +53,16 @@
       <li>When memory fills, the table is dumped to disk as an immutable file (an <strong>SSTable</strong>).</li>
       <li>A background process (<strong>compaction</strong>) merges those files over time to keep read costs bounded.</li>
     </ul>
-    <p>You pay for cheap writes with <strong>read amplification</strong> (a read may touch several files) and <strong>write amplification</strong> (compaction rewrites data repeatedly). Bloom filters and level layout are how you claw the read cost back.</p>
+    <!-- <p>You pay for cheap writes with <strong>read amplification</strong> (a read may touch several files) and <strong>write amplification</strong> (compaction rewrites data repeatedly). Bloom filters and level layout are how you claw the read cost back.</p>
 
     <div class="media-block">
       <img src="../assets/images/lsm-flow.svg" alt="Diagram: a write fans out to the WAL and the memtable; the memtable flushes to an immutable memtable, which flushes to L0 SSTables, which compact down into L1 and beyond." />
       <p class="media-caption">Fig 1. — Write path and compaction pipeline. Everything left of L0 is in memory; everything from L0 down is immutable files on disk.</p>
     </div>
 
-    <p>Immutability is the quiet superpower here. An SSTable, once written, never changes. That fact shows up again later when we get to replicas.</p>
+    <p>Immutability is the quiet superpower here. An SSTable, once written, never changes. That fact shows up again later when we get to replicas.</p> -->
 
-    <p> To be continued...</p>
+    <p> To be continued...(I will add github repo link once I have something to show for).</p>
 
     <!-- <h2>One idea does most of the work: the sequence number</h2>
     <p>Every write gets a monotonically increasing 56-bit sequence number, and the key stored on disk is not the user's key:</p>
