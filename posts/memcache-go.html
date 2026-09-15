@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>memcache-go: Building Memcached From Scratch in Go — DevDepth</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-180.png" />
+  <meta property="og:title" content="memcache-go: Building Memcached From Scratch in Go — DevDepth" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://sumitdvlp.github.io/posts/memcache-go.html" />
+  <meta property="og:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://sumitdvlp.github.io/assets/og-image.png" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&family=Fraunces:ital,wght@0,700;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../archive.html">Archive</a></li>
+        <li><a href="../about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ARTICLE HEADER -->
+  <div class="article-header container">
+    <span class="tag">Systems</span>
+    <h1 class="article-title">memcache-go: Building Memcached From Scratch in Go</h1>
+    <div class="article-meta">
+      <span>September 15, 2026</span>
+      <span>·</span>
+      <span>8 min read</span>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <main class="article-body">
+
+    <p>I was practicing coding and writing  <a href="https://github.com/sumitdvlp/patterns_in_python/blob/main/src/misc_ds/lru_cache.py"> LRU cache, </a> and then i thought the current thread safe implementation is  sufficient for correctness under concurrent access but not good enough for write heavy contention. The biggest win will be sharding but the tradeoff: eviction becomes approximate. So added a janitor for cleanups.</p>
+    <p><a href="https://github.com/sumitdvlp/memcache-go" target="_blank" rel="noopener">memcache-go</a> is a distributed Memcached clone I wrote in Go: a single-node, in-memory, LRU-evicting, TTL-aware key/value store that speaks the real Memcache text protocol, plus a consistent-hashing client that routes keys across a multi-node cluster. No caching library underneath. Memcached is one of those systems everyone has used and almost no one has re-derived, and the interesting parts turned out to be smaller and sharper than I expected.</p>
+
+    <h2>The shape of the project</h2>
+    <p>Three layers, cleanly separated:</p>
+    <ul>
+      <li><strong><code>memcache/</code></strong> — the single-node engine: an LRU+TTL <code>Store</code>, a text-protocol connection handler, the TCP server, and stats counters.</li>
+      <li><strong><code>cluster/</code></strong> — a hash function and a consistent-hash <code>Ring</code> that maps keys to physical nodes.</li>
+      <li><strong><code>client/</code></strong> — a pooled cluster client that wraps the ring: callers just call <code>Get</code>/<code>Set</code> and never think about which node owns which key.</li>
+    </ul>
+    <p>A node knows nothing about the cluster. All the routing intelligence lives in the client, which is the same design real Memcached uses — the servers are dumb, stateless, and don't talk to each other at all.</p>
+
+    <h2>The store: O(1) LRU without a library</h2>
+    <p>The core data structure is the textbook LRU cache: a doubly-linked list ordered by recency (<code>container/list</code>) plus a <code>map[string]*list.Element</code> for O(1) lookup. Every <code>Get</code> moves its element to the front; eviction always pops from the back.</p>
+
+    <pre><code>func (s *Store) Get(key string) ([]byte, uint32, bool) {
+    s.mu.Lock()
+    defer s.mu.Unlock()
+
+    el, ok := s.items[key]
+    if !ok {
+        s.getMisses++
+        return nil, 0, false
+    }
+    it := el.Value.(*item)
+    if it.isExpired(time.Now()) {
+        s.removeElement(el)
+        s.expired++
+        s.getMisses++
+        return nil, 0, false
+    }
+    s.ll.MoveToFront(el)
+    s.getHits++
+    out := make([]byte, len(it.value))
+    copy(out, it.value)
+    return out, it.flags, true
+}</code></pre>
+
+    <p>Two things worth calling out. First, eviction is <strong>size-bounded, not count-bounded</strong> — the store tracks approximate memory usage (key length + value length per entry) against a configured <code>maxBytes</code>, and <code>evictIfNeeded()</code> pops from the tail of the list until it fits. That mirrors real Memcached's <code>-m</code> flag far better than a "max N keys" limit would, since key/value sizes in practice are wildly uneven.</p>
+    <p>Second, both <code>Set</code> and <code>Get</code> copy the byte slice in and out. It's a small allocation cost per operation, but it means the store never hands out a slice a caller could mutate underneath a concurrent reader — no aliasing bugs, no need to document "don't touch this after you get it back."</p>
+    <p>TTL is lazy plus a sweep: expiry is checked on read (a <code>Get</code> against a stale key evicts it on the spot and counts as a miss), and a background janitor goroutine walks the list from the back every <code>cleanupInterval</code> and reaps anything expired, so keys that are never read again don't sit around forever burning memory. Since the list is ordered by recency and not by expiry, the janitor's sweep is a full O(n) scan rather than a heap-based "next expiring key" pop — a deliberate simplicity-over-throughput tradeoff, fine at the scale this is meant for.</p>
+
+    <h2>Speaking the actual protocol</h2>
+    <p>The point of building this wasn't just "a cache with a Go API" — it needed to be a drop-in Memcached speaker, testable with <code>nc</code> or <code>telnet</code> and usable by any existing Memcache client library. The handler reads line-by-line off a buffered reader, splits on whitespace to get the command and its arguments, and dispatches:</p>
+    <ul>
+      <li><code>get</code> / <code>gets</code> — fetch one or more keys</li>
+      <li><code>set</code> — store a value; reads the command line (key, flags, exptime, byte count), then a separate <code>io.ReadFull()</code> for the exact-length binary payload that follows</li>
+      <li><code>delete</code>, <code>flush_all</code>, <code>stats</code>, <code>version</code>, <code>quit</code></li>
+    </ul>
+    <p>The fiddly bit is <code>exptime</code>: the Memcache protocol overloads one field to mean two different things — a relative number of seconds if it's ≤ 30 days, or an absolute Unix timestamp otherwise. <code>expTimeToTTL()</code> handles that branch and converts either form into a plain <code>time.Duration</code>, so the store itself never has to know the protocol existed. Values are capped at 1 MiB, matching Memcached's own default item-size ceiling.</p>
+
+    <h2>Consistent hashing: the part that makes it a cluster</h2>
+    <p>A single node is just a cache. What turns this into <em>memcache-go</em> rather than <em>memcache-go-node</em> is the <code>cluster.Ring</code>: a thread-safe consistent-hash ring where each physical node is placed at 160 points ("virtual nodes") around the hash space to keep the key distribution balanced even with a small node count.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Operation</th>
+            <th>How</th>
+            <th>Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Get(key)</code></td>
+            <td>hash the key, binary-search the sorted virtual-node slice for the first hash ≥ h, wrap around if none found</td>
+            <td>O(log n)</td>
+          </tr>
+          <tr>
+            <td><code>GetN(key, n)</code></td>
+            <td>walk clockwise from that point collecting distinct physical nodes, for replication</td>
+            <td>O(n)</td>
+          </tr>
+          <tr>
+            <td><code>Add</code> / <code>Remove</code></td>
+            <td>insert/delete the 160 virtual-node hashes for that physical node, rebuild the sorted slice</td>
+            <td>O(n log n)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>This is the whole reason consistent hashing exists instead of plain <code>hash(key) % N</code>: adding or removing a node only reshuffles the keys that landed on that node's ~160 arcs, not the entire keyspace. With modular hashing, changing <code>N</code> by one invalidates almost every key's mapping at once — a cache-wide cold start at exactly the moment (a node joining or dying) when you can least afford one.</p>
+
+    <h2>Client-side routing, server-side ignorance</h2>
+    <p>The design leans hard on one decision: nodes are completely stateless and unaware of each other. There's no gossip, no coordinator, no rebalancing protocol — the <code>client</code> package holds the ring and a connection pool per node, and simply looks up the right node before every request. This is exactly how production Memcached clusters have always worked (Facebook's mcrouter is the industrial-strength version of the same idea), and it buys real simplicity: no split-brain, no consensus, no server-side code that needs to know about cluster membership at all. The cost is the one you'd expect — the client owns correctness of the topology, and a node that goes down doesn't fail over, it just becomes unreachable until the client's view of the ring is updated. That's an acceptable trade for a cache: it's explicitly not the system of record, so losing an unreachable node's keys is a cold cache, not data loss.</p>
+
+    <h2>Running it</h2>
+    <p>A single node with a 64 MiB cap:</p>
+    <pre><code>go run ./cmd/server --port 11211 --max-memory 64mb
+
+# then, from anywhere that speaks the protocol:
+printf 'set foo 0 0 3\r\nbar\r\n' | nc localhost 11211
+printf 'get foo\r\n' | nc localhost 11211</code></pre>
+    <p>And a 3-node cluster via the included Docker Compose file, driven from Go through the cluster client:</p>
+    <pre><code>c := client.New([]string{"node1:11211", "node2:11211", "node3:11211"})
+c.Set("session:42", []byte("payload"), time.Minute)
+val, ok := c.Get("session:42")</code></pre>
+
+    <h2>What's deliberately missing</h2>
+    <p>No persistence — restart a node and its data is gone, same as real Memcached. No server-side replication or automatic failover; <code>GetN</code> exists in the ring so a client <em>could</em> write to N nodes for redundancy, but that policy decision is left to the caller rather than baked into the server. No dynamic cluster membership discovery — the client is handed a static node list. All three are the right scope cuts for what this project is: a faithful, from-scratch reimplementation of the parts of Memcached that are actually instructive to build, not a from-scratch reimplementation of everything ops tooling has grown around it over twenty years.</p>
+
+    <p>Code's at <a href="https://github.com/sumitdvlp/memcache-go" target="_blank" rel="noopener">github.com/sumitdvlp/memcache-go</a>.</p>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="../index.html" class="nav-logo">Dev<span>Depth</span></a>
+
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
